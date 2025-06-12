@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Your Cart</h2>
+
+{% if items %}
+  <p>You can reduce product quantities if the total amount is more than your budget.</p>
+  <ul class="list-group mb-3">
+    {% for item in items %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          {{ item.quantity }} x {{ item.product.name }}
+          <form method="post" action="{% url 'update_cart' item.product.id %}" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="decrease">
+            <button type="submit" class="btn btn-sm btn-warning">-</button>
+          </form>
+          <form method="post" action="{% url 'update_cart' item.product.id %}" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="remove">
+            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+          </form>
+        </div>
+        <span>₦{{ item.subtotal }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p><strong>Total: ₦{{ total }}</strong></p>
+  <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+{% else %}
+  <p>Your cart is empty.</p>
+{% endif %}
+
+{% endblock %}

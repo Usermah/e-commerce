@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-3">{{ product.name }}</h2>
+
+{% if product.image %}
+  <img src="{{ product.image.url }}" class="img-fluid mb-3" style="max-height: 300px; object-fit: contain;" />
+{% endif %}
+
+<p>{{ product.description }}</p>
+<p><strong>₦{{ product.price }}</strong></p>
+
+<form method="post" class="mb-3">
+  {% csrf_token %}
+  {{ form.quantity.label_tag }} {{ form.quantity }}
+  <button type="submit" class="btn btn-success">Add to Cart</button>
+</form>
+
+<a href="{% url 'product_list' %}" class="btn btn-secondary">Back to products</a>
+{% endblock %}

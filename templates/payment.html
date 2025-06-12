@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Confirm Payment</h2>
+  <p><strong>Total: ₦{{ total }}</strong></p>
+
+  <button class="btn btn-success" onclick="payWithPaystack()">Pay Now</button>
+
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+
+  <script>
+    function payWithPaystack() {
+      // Convert Django variable (as a string) to number and multiply by 100
+      const amountInKobo = Number("{{ amount|default:0 }}") * 100;
+
+      const handler = PaystackPop.setup({
+        key: "{{ paystack_public_key }}",  // Public key
+        email: "{{ email }}",              // Customer email
+        amount: amountInKobo,              // Paystack expects amount in kobo
+        currency: "NGN",
+        ref: "REF_" + Math.floor(Math.random() * 1000000000 + 1),  // Unique ref
+        callback: function(response) {
+          window.location.href = "/payment/verify/" + response.reference + "/";
+        },
+        onClose: function() {
+          alert("Transaction was not completed. Payment window closed.");
+        }
+      });
+
+      handler.openIframe();
+    }
+  </script>
+{% endblock %}
+
+

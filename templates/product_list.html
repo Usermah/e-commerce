@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Products</h2>
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+
+        {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top"
+               style="height: 300px; object-fit: contain; padding: 10px; background-color: #f9f9f9;" />
+        {% endif %}
+
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <p><strong>₦{{ product.price }}</strong></p>
+          <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary">View</a>
+        </div>
+
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

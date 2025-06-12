@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Checkout</h2>
+
+  {% if items %}
+    <ul class="list-group mb-3">
+      {% for item in items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ item.quantity }} x {{ item.product.name }}
+          <span>₦{{ item.subtotal }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+    <p><strong>Total: ₦{{ total }}</strong></p>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+
+  <hr>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.name.label_tag }} {{ form.name }}
+    </div>
+    <div class="mb-3">
+      {{ form.email.label_tag }} {{ form.email }}
+    </div>
+    <div class="mb-3">
+      {{ form.phone.label_tag }} {{ form.phone }}
+    </div>
+    <div class="mb-3">
+      {{ form.address.label_tag }} {{ form.address }}
+    </div>
+    <button type="submit" class="btn btn-success">Proceed to Payment</button>
+  </form>
+{% endblock %}
