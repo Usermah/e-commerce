@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,5 +134,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory for uploaded media fil
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-PAYSTACK_PUBLIC_KEY = 'pk_test_73a74bb0cbb8ea7f4cf8de6fad418224e89c4f59'
-PAYSTACK_SECRET_KEY = 'sk_test_ad2b9cb54fd2545b847d3f6f1b7f02f0515fa43a'
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
